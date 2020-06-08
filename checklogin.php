@@ -10,22 +10,22 @@ $con = mysqli_connect('localhost','root');
 	mysqli_select_db($con,'register');
 
 
-	$username = $_POST['username1'];
-	$password = $_POST['password1'];
+	$usn = $_POST['usn1'];
+	$pass = $_POST['pass1'];
 
-$q = " select * from weather where username1 = '$username' && password1='$password' ";
+$q = " select * from register1 where usn1 = '$usn' && pass1='$pass' ";
 
 $result = mysqli_query($con,$q);
 
 $row = mysqli_num_rows($result);
 
 if($row == 1){
-	$_SESSION['username1'] = $username;
+	$_SESSION['usn1'] = $usn;
 
-	$userquery = " insert into username1(username1) values ('$username')";
+	$userquery = " insert into usn1(usn1) values ('$usn')";
 	$userresult = mysqli_query($con,$userquery) ;
 
-	header('location:index.html');	
+	header('location:home.html');	
 }else{
 
 	header('location:studentlogin.html');
