@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "register";
+$dbname = "online_library";
 
 $name=$_POST["name1"];
 $usn=$_POST["usn1"];
@@ -26,7 +26,7 @@ die("Connection failed: " . $conn->connect_error);
 
 }
 
-$sql = "INSERT INTO register1 (name1,usn1,email1,dept1,sem1,pass1,phno1,secamt1)
+$sql = "INSERT INTO register (name1,usn1,email1,dept1,sem1,pass1,phno1,secamt1)
 	VALUES ('$name','$usn','$email','$dept','$sem','$pass','$phno','$secamt')";
 
 if ($conn->query($sql) === TRUE) {
@@ -39,7 +39,7 @@ echo "Error: " . $sql . "<br>" . $conn->error;
 
 }
 
-header("location:studentlogin.html");
+header("location:studentlogin.php");
 $conn->close();
 
 ?>
