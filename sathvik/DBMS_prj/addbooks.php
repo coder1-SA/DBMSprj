@@ -1,5 +1,4 @@
 <?php
-  // include('studentlogin.php');
   session_start();
   $servername = "localhost";
 $username = "root";
@@ -13,6 +12,41 @@ if ($conn->connect_error) {
 }
 
 $conn ->select_db($database) or die( "Unable to select database");
+
+if(isset($_POST["upload"]))
+{
+ if($_FILES['product_file']['name'])
+ {
+  $filename = explode(".", $_FILES['product_file']['name']);
+  if(end($filename) == "csv")
+  {
+   $handle = fopen($_FILES['product_file']['tmp_name'], "r");
+   while($data = fgetcsv($handle))
+   {
+    $isbn = mysqli_real_escape_string($conn, $data[0]);
+    $name = mysqli_real_escape_string($conn, $data[1]);  
+    $publication = mysqli_real_escape_string($conn, $data[2]);
+    $edition = mysqli_real_escape_string($conn, $data[3]);
+    $genre = mysqli_real_escape_string($conn, $data[4]);
+    $permitions = mysqli_real_escape_string($conn, $data[5]);
+    
+    $query = "insert into books values('$isbn','$name','$publication','$edition',0,'$genre','$permitions',0)";
+    mysqli_query($conn, $query);
+   }
+   fclose($handle);
+   header("location: dashboard.php");
+  }
+  else
+  {
+   $message = '<label class="text-danger">Please Select CSV File only</label>';
+  }
+ }
+ else
+ {
+  $message = '<label class="text-danger">Please Select File</label>';
+ }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,27 +75,12 @@ $conn ->select_db($database) or die( "Unable to select database");
   </div>
     </div>
 
-<div id="id"></div>
-<?php 
-   $get_gen = "SELECT DISTINCT `genere` FROM books";
-   $res = mysqli_query($conn, $get_gen);
-   $row = mysqli_num_rows($res);
-   if($row > 0){
-    $i=1;
-     while($row = mysqli_fetch_assoc($res)) {
-         echo "<input type='button' class='submit_c' id= ".$row["genere"]." value=".$row["genere"]."> &nbsp&nbsp&nbsp"; 
-         $i++;
-       }
- }
-
-?>
-    
-<table class="table" id="table">
-</table>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
-   <script src="js/borrow.js"></script>
-   <script src="js/borrow1.js"></script>
-  <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>
+    <form method="post" enctype='multipart/form-data'>
+    <p><label>Please Select File(Only CSV Formate)</label>
+    <input type="file" name="product_file" /></p>
+    <br />
+    <input type="submit" name="upload" class="btn btn-info" value="Upload" />
+   </form>
+</section>
 </body>
 </html>

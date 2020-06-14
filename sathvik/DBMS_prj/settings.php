@@ -55,35 +55,6 @@
     </div>
    </section>
 
-   <!-- Content -->
-    <section>
-    <h5 style='margin-top:-580px;margin-left:18%;color:#5b5b5b'>Dashboard</h5>
-    <div class="card" style="width: 14rem;height:8em;margin-left:17%;margin-top:25px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">My Books</h5>
-    <a href="#" class="btn btn-primary">go to books</a>
-  </div>
-</div>
-<div class="card" style="width: 14rem;height:8em;margin-left:45%;margin-top:-128px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">Borrow a book</h5>
-    <a href="#" class="btn btn-primary">Go to Collections</a>
-  </div>
-</div>
-
-<div class="card" style="width: 14rem;height:8em;margin-left:75%;margin-top:-128px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">return</h5>
-    <a href="#" class="btn btn-primary">Go to returns</a>
-  </div>
-</div>
-<img class="mySlides" src="images/shtheory.jpg">
-<img class="mySlides" src="images/got.jpg" >
-<img class="mySlides" src="images/elonmusk.jpg">
-<img class="mySlides" src="images/harrypotter.png">
-<img class="mySlides" src="images/got2.jpg">
-<h5 style='margin-top:-300px;margin-left:53%;color:grey'>New Collections</h5>
-  </section>
    
     
     <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>
