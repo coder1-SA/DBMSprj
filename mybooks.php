@@ -60,19 +60,20 @@ $conn ->select_db($database) or die( "Unable to select database")
 <div>
 <?php
         $usn=$_SESSION['usn1'];
-        $sql = "SELECT books.isbn,`name`,publication,genere FROM books JOIN borrow_return ON books.isbn = borrow_return.isbn";
+        $sql = "SELECT books.isbn,`name`,publication,genere FROM books JOIN borrow_return ON books.isbn=borrow_return.isbn AND usn='$usn' AND issues=1";
         $result = mysqli_query($conn,$sql);
+        if($result){
         $row = mysqli_num_rows($result);
-
         if ($row > 0) {
             // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "<tr> <td>" . $row["name"]. "</td><td>" . $row["publication"]. "</td><td>" .$row["genere"]."</td><td><input value='Return' type='submit'></td></tr>";
+                    echo "<tr> <td>" . $row["name"]. "</td><td>" . $row["publication"]. "</td><td>" .$row["genere"]."</td><td><input class='returns' id =".$row['isbn']." onclick='doc()' value='Return' type='submit'></td></tr>";
                 }
         } 
-        
+        }
         else {
-                echo "You've not borrowed any book.";
+                echo "<h2 style='text-align:center'>You've not borrowed any book.</h2>";
+                echo "<tr> <td>NULL</td><td>NULL</td><td>NULL</td><td></td></tr>";
         }
         $conn->close();
 ?></div>
@@ -112,9 +113,9 @@ $conn ->select_db($database) or die( "Unable to select database")
 <h5 style='margin-top:-300px;margin-left:53%;color:black'>New Collections</h5>
   </section>
    
-    
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>
-    <script src="js/dashboard.js"></script>
-        
+    <script src="js/dashboard.js" type="text/javascript"></script>
+    <script src="js/mybooks.js" type="text/javascript"></script>
 </body>
 </html>

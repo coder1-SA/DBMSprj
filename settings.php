@@ -13,6 +13,7 @@
 <?php
 
   session_start();
+  $user = $_SESSION['pass'];
 ?>
    <section>
    <div class='header'>
@@ -20,7 +21,7 @@
        <input class='bg-light search' type="text" placeholder='search for a book :)'>
        <i class="fas fa-search" style='background-color:#286fd7;color:white;padding:8px;margin-left:-4px;border-radius:5%;'></i>
      </form>
-     <h6 style='margin-left:85%;margin-top:-2%;'>Hi &nbsp <?php echo $_SESSION['name1']?> </h6>
+     <h6 style='margin-left:85%;margin-top:-2%;'>hi &nbsp <?php echo $user?> </h6>
      <div class='dropdown'>
      <div class='dropbtn' style='margin-left:1075px;margin-top:-50px;'><i class="fas fa-user-circle"></i></div>
      <div class="dropdown-content">
@@ -39,50 +40,21 @@
     <i class="fas fa-book-reader" style='margin-top:38%;margin-left:28%;color:whitesmoke'></i>
     <h5 style='margin-top:-13%;margin-left:45%;color:whitesmoke;'>Admin</h5>
      <hr class='bg-light' style='margin-top:11%;width:11em;'>
-     <p style='color:white;font-weight:100;'><i class="fas fa-tachometer-alt" style='color:white;margin-left:35px;'></i><a style="color:white"href="dashboard.php">&nbsp&nbsp&nbsp Dashboard</a></p>
+     <p style='color:white;font-weight:100;'><i class="fas fa-tachometer-alt" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Dashboard</p>
      <hr class='bg-light' style='margin-top:11%;width:11em;'>
     <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Interface</p>
     <p style='color:white;font-weight:100;'><i class="fas fa-cogs" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Settings</p>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>View</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book-open" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp New Additions</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Upcomming</p>
+    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>view</p>
+    <p style='color:white;font-weight:100;'><i class="fas fa-book-open" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp new additions</p>
+    <p style='color:white;font-weight:100;'><i class="fas fa-book" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp upcomming</p>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
     <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Statistics</p>
-    <p style='color:white;font-weight:100;'><i class="far fa-chart-bar" style='color:white;margin-left:35px;'></i><a style="color:white"href="charts.php">&nbsp&nbsp&nbsp Charts</a></p>
+    <p style='color:white;font-weight:100;'><i class="far fa-chart-bar" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Charts</p>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
     </div>
    </section>
 
-   <!-- Content -->
-    <section>
-    <h5 style='margin-top:-580px;margin-left:18%;color:#5b5b5b'>Dashboard</h5>
-    <div class="card" style="width: 14rem;height:8em;margin-left:17%;margin-top:25px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">My Books</h5>
-    <a href="mybooks.php" class="btn btn-primary">My Books</a>
-  </div>
-</div>
-<div class="card" style="width: 14rem;height:8em;margin-left:45%;margin-top:-128px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">Borrow a book</h5>
-    <a href="borrow.php" class="btn btn-primary">Collections</a>
-  </div>
-</div>
-
-<div class="card" style="width: 14rem;height:8em;margin-left:75%;margin-top:-128px;box-shadow: 1px 5px 1px 3px #ddd9dd;">
-   <div class="card-body">
-    <h5 class="card-title">Donate a book</h5>
-    <a href="addbooks.php" class="btn btn-primary">Donate</a>
-  </div>
-</div>
-<img class="mySlides" src="img/shtheory.jpg">
-<img class="mySlides" src="img/got.jpg" >
-<img class="mySlides" src="img/elonmusk.jpg">
-<img class="mySlides" src="img/harrypotter.png">
-<img class="mySlides" src="img/got2.jpg">
-<h5 style='margin-top:-300px;margin-left:53%;color:grey'>New Collections</h5>
-  </section>
    
     
     <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>

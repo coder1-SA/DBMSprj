@@ -1,112 +1,82 @@
 <?php
-  session_start();
-  $servername = "localhost";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $database = "online_library";
 
 $conn = new mysqli($servername, $username, $password,$database);
-
+ 
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+echo "Connected successfully";
 
-$conn ->select_db($database) or die( "Unable to select database")
+$conn ->select_db($database) or die( "Unable to select database");
+
+   $sql = "SELECT * FROM library_attendance";
+   $result = mysqli_query($conn,$sql);
+   foreach($result as $att){
+     $student = $att["student"];
+     $teacher = $att["teacher"];
+   }
+   //echo "el";
 ?>
 
-
-<html lang="en">
+<!DOCTYPE html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <title>My Books</title>
+<title>charts</title>
 </head>
+<html>
 <body>
 
+<h1>My Web Page</h1>
 
+<div id="piechart"></div>
+<div id="pie"></div>
+<div id="container" style="width: 100%; height: 100%"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['Student', <?php echo $student ?>],
+  ['Teacher', <?php echo $teacher ?>],
+]);
 
-        <section>
-   <div class='header'>
-     <form action="">
-       <input class='bg-light search' type="text" placeholder='search for a book :)'>
-       <i class="fas fa-search" style='background-color:#286fd7;color:white;padding:8px;margin-left:-4px;border-radius:5%;'></i>
-     </form>
-     <h6 style='margin-left:85%;margin-top:-2%;'>Hi &nbsp <?php echo $_SESSION['name1']?> </h6>
-     <div class='dropdown'>
-     <div class='dropbtn' style='margin-left:1075px;margin-top:-50px;'><i class="fas fa-user-circle"></i></div>
-     <div class="dropdown-content">
-    <a href="#">Account</a>
-    <a href="#">page 1</a>
-    <a href="#">page 2</a>
-    <a href="#">page 3</a>
-    <a href="#">Information</a>
-    <a href="#">Signout</a>
-  </div>
-    </div>
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Average ratio of logins ', 'width':550, 'height':400};
 
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script>
+<script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
+<script>
+  let arr=[];
+  function render_chart(){
+   $.ajax({
+     url: 'chart_server.php',
+     success : function(data1){   
+       let data = JSON.parse(data1);
+       var chart = anychart.pie();
+      chart.title("Population by Race for the United States: 2010 Census");
+      chart.data(data);
+      chart.container('container');
+      chart.draw();
+     }
+           
+   });
+  }
+render_chart();
 
+</script>
 
-
-    <!-- data display-->
-<br><br><div style="text-align:center">
-<?php
-        $usn=$_SESSION['usn1'];
-        $sql = "SELECT issues,`name` FROM borrow_return JOIN books ON borrow_return.isbn = books.isbn";
-        $result = mysqli_query($conn,$sql);
-        $row = mysqli_num_rows($result);
-        if ($row > 0) {
-            // output data of each row
-                while($row = $result->fetch_assoc()) {
-                    echo "Name: " . $row["name"]. "&nbsp&nbsp&nbsp Number of issues:" . $row["issues"]."<br>";
-                }
-        } 
-        
-        else {
-                echo "No books are issued yet.";
-        }
-        $conn->close();
-?></div>
-
-
-
-
-
-
-<!-- Side panal -->
-   </div>
-    <div class='side_bar'>
-    <i class="fas fa-book-reader" style='margin-top:38%;margin-left:28%;color:whitesmoke'></i>
-    <h5 style='margin-top:-13%;margin-left:45%;color:whitesmoke;'>Admin</h5>
-     <hr class='bg-light' style='margin-top:11%;width:11em;'>
-     <p style='color:white;font-weight:100;'><i class="fas fa-tachometer-alt" style='color:white;margin-left:35px;'></i><a style="color:white"href="dashboard.php">&nbsp&nbsp&nbsp Dashboard</a></p>
-     <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Interface</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-cogs" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Settings</p>
-    <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>View</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book-open" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp New Additions</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Upcomming</p>
-    <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Statistics</p>
-    <p style='color:white;font-weight:100;'><i class="far fa-chart-bar" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Charts</p>
-    <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    </div>
-   </section>
-
-   
-   <img class="mySlides" src="img/shtheory.jpg">
-<img class="mySlides" src="img/got.jpg" >
-<img class="mySlides" src="img/elonmusk.jpg">
-<img class="mySlides" src="img/harrypotter.png">
-<img class="mySlides" src="img/got2.jpg">
-<h5 style='margin-top:-300px;margin-left:53%;color:black'>New Collections</h5>
-  </section>
-   
-    
-    <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>
-    <script src="js/dashboard.js"></script>
-        
 </body>
-</html>
+<html>
