@@ -1,9 +1,9 @@
 <?php
-  
+  session_start();
+  $ent= $_SESSION["id"];
 
    if(isset($_GET['name'])){
        $name = $_GET['name'];
-       $ent = $_GET['ent'];
       
 
 
@@ -21,7 +21,7 @@
  $conn ->select_db($database) or die( "Unable to select database");
  
 
-
+$todate = date("Y-m-d");
  $r = date("d")+15;
  $m=date("m");
  if($r>28 && $m==2)

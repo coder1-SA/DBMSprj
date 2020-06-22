@@ -1,18 +1,16 @@
-let a = document.querySelectorAll('.issues');  
-console.log(a);
+let a = document.querySelectorAll('.issues'); 
 function render(x){
-    let ent=prompt("enter id",);
     data = {
       "name" : x,
-      "ent" : ent
     }
      $.ajax({
        url: 'test.php',
        data: data,
        success : function(data){
+         data1 = JSON.parse(data);
          console.log(data);
+         
        }
-  
      });
     }
   
@@ -20,8 +18,6 @@ function render(x){
   for(let i=0;i<a.length;i++){
       a[i].addEventListener('click',e=>{
           let x = a[i].id;
-          console.log(1);
           render(x);
-          e.target.value="issued"
       })
   }

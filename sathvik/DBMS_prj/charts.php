@@ -9,7 +9,6 @@ $conn = new mysqli($servername, $username, $password,$database);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully";
 
 $conn ->select_db($database) or die( "Unable to select database");
 
@@ -29,11 +28,12 @@ $conn ->select_db($database) or die( "Unable to select database");
 <html>
 <body>
 
-<h1>My Web Page</h1>
+<h1 style="color:blue;font-weight:100;margin-left:50%">Charts</h1>
+<a style="text:decoration:none;color:red" href="./dashboard.php"><input style="margin-left:90%;color:blue;width:100px;height:40px;" type="button" value="To dashboard"></a>
 
-<div id="piechart"></div>
 <div id="pie"></div>
-<div id="container" style="width: 100%; height: 100%"></div>
+<div id="container" style="margin-left:30%;width: 50%; height: 360px"></div>
+<div style="margin-left:40%;" id="piechart"></div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -66,7 +66,7 @@ function drawChart() {
      success : function(data1){   
        let data = JSON.parse(data1);
        var chart = anychart.pie();
-      chart.title("Population by Race for the United States: 2010 Census");
+      chart.title("Issue percentage by genere");
       chart.data(data);
       chart.container('container');
       chart.draw();

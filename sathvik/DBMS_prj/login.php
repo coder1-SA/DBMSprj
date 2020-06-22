@@ -7,7 +7,6 @@
 <body>
 <?php
 session_start();
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -58,10 +57,14 @@ $conn ->select_db($database) or die( "Unable to select database");
 						$val = $a["student"]+1;
 						$a_query = "UPDATE library_attendence SET student='$val' WHERE id=1";
 						mysqli_query($conn, $a_query);
-					
 					}
+					$get_name = "SELECT `name` FROM student WHERE `id`=$id";
+			        $sq_name = mysqli_query($conn, $get_name);
+			        foreach($sq_name as $name_user){
+					  $user_name_acc = $name_user['name'];
+					  $_SESSION['pass'] = $user_name_acc;
+			         }
 					$_SESSION['id'] = $id;
-					$_SESSION['pass'] = $password;
 					$_SESSION['teacher'] = false;
 				    header('location:dashboard.php');
 				}

@@ -38,9 +38,6 @@ $conn ->select_db($database) or die( "Unable to select database");
 
     echo json_encode($results);
             
-           // $x[j] = "<tr><td>".$row["name"]."</td><td>".$row["publication"]."</td><td>".$row["genere"]."</td><td>".$row["permitions"]."</td><td>".$row["issued"]."</td><td><input type='submit' class = 'issues' id = ".$row["isbn"]." value = 'issue'></td></tr>";
-    
-
    }
    
 ?>
