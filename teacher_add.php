@@ -23,25 +23,20 @@ if(isset($_POST["upload"]))
    $handle = fopen($_FILES['product_file']['tmp_name'], "r");
    while($data = fgetcsv($handle))
    {
-    $isbn = mysqli_real_escape_string($conn, $data[0]);
-    $name = mysqli_real_escape_string($conn, $data[1]);  
-    $publication = mysqli_real_escape_string($conn, $data[2]);
-    $edition = mysqli_real_escape_string($conn, $data[3]);
-    $genre = mysqli_real_escape_string($conn, $data[4]);
-    $permitions = mysqli_real_escape_string($conn, $data[5]);
+    $id = mysqli_real_escape_string($conn, $data[0]);
+    $password = mysqli_real_escape_string($conn, $data[1]);  
+    $name = mysqli_real_escape_string($conn, $data[2]);
+    $dept = mysqli_real_escape_string($conn, $data[3]);
+    $bal = mysqli_real_escape_string($conn, $data[4]);
     
-    $query = "insert into books values('$isbn','$name','$publication','$edition','$genre',0,'$permitions',0)";
+    $query = "insert into teacher values('$id','$password','$name','$dept',$bal)";
     mysqli_query($conn, $query);
 
-    $query1 ="INSERT INTO borrow_return VALUES ($isbn,NULL,NULL,NULL,NULL,0)";
-   mysqli_query($conn,$query1);
-
-   
+   $buys_ins = "INSERT into buys values(NULL,'$id',NULL,NULL)";
+   mysqli_query($conn,$buys_ins);
    }
    fclose($handle);
-   $delete_zero_row = "DELETE from borrow_return WHERE `isbn`=0";
-   mysqli_query($conn,$delete_zero_row);
-   mysqli_query($conn,"DELETE from books WHERE `isbn`=0");
+
   }
   else
   {

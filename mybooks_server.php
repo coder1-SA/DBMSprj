@@ -16,8 +16,7 @@ $conn ->select_db($database) or die( "Unable to select database");
 if(isset($_GET["isbn_return"]))
 {
     $book_id=$_GET["isbn_return"];
-
-    $sql="UPDATE borrow_return SET issues=0, usn='0' WHERE isbn=".$book_id."";
+    $sql = "UPDATE borrow_return SET `sid`=NULL,date_issue=NULL,date_return=NULL,issued=0 where isbn = $book_id";
     $result = mysqli_query($conn, $sql);
     echo "Success";
     

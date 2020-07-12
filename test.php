@@ -1,9 +1,9 @@
 <?php
-  
+  session_start();
+  $ent= $_SESSION["id"];
 
    if(isset($_GET['name'])){
        $name = $_GET['name'];
-       $ent = $_GET['ent'];
       
 
 
@@ -21,7 +21,7 @@
  $conn ->select_db($database) or die( "Unable to select database");
  
 
-
+$todate = date("Y-m-d");
  $r = date("d")+15;
  $m=date("m");
  if($r>28 && $m==2)
@@ -46,22 +46,30 @@
 
 
 
- $check = "select issues from borrow_return where isbn = $name";
+ $check = "select issued from borrow_return where isbn = $name";
  $res = mysqli_query($conn,$check);
  $row = '';
  $row = mysqli_num_rows($res);
 
   if($row>0){
       while($row = mysqli_fetch_assoc($res)){
-          if($row["issues"] != 1){
-            $sql = "update borrow_return set usn='$ent',date_issue='$todate',date_return='$return_date',issues=1 where isbn = '$name'";
+        if($row["issued"] ==1){$str="taken, pick another ";}
+          if($row["issued"] !=1){
+            if(!$_SESSION["teacher"]){
+            $sql = "update borrow_return set sid='$ent',date_issue='$todate',date_return='$return_date',issued=1 where isbn = '$name'";
             $update = mysqli_query($conn, $sql);
+            $str="its been issued under your name";
+            }
+            else{
+              $sql = "update borrow_return set tid='$ent',date_issue='$todate',date_return='$return_date',issued=1 where isbn = '$name'";
+              $update = mysqli_query($conn, $sql);
+              $str="its been issued under your name";
+            }
           }
-          else
-           echo json_encode($row["issues"]);
         }
   }
-  
+  $res = array("name"=>$str); 
+  echo json_encode($res);
  
 }
 ?>

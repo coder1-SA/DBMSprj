@@ -23,25 +23,16 @@ if(isset($_POST["upload"]))
    $handle = fopen($_FILES['product_file']['tmp_name'], "r");
    while($data = fgetcsv($handle))
    {
-    $isbn = mysqli_real_escape_string($conn, $data[0]);
-    $name = mysqli_real_escape_string($conn, $data[1]);  
-    $publication = mysqli_real_escape_string($conn, $data[2]);
-    $edition = mysqli_real_escape_string($conn, $data[3]);
-    $genre = mysqli_real_escape_string($conn, $data[4]);
-    $permitions = mysqli_real_escape_string($conn, $data[5]);
-    
-    $query = "insert into books values('$isbn','$name','$publication','$edition','$genre',0,'$permitions',0)";
+    $id = mysqli_real_escape_string($conn, $data[0]);  
+    $name = mysqli_real_escape_string($conn, $data[1]);
+    $quantity = mysqli_real_escape_string($conn, $data[2]);
+    $price = mysqli_real_escape_string($conn, $data[3]);
+  
+    $query = "insert into cafeteria values($id,'$name',$quantity,$price)";
     mysqli_query($conn, $query);
-
-    $query1 ="INSERT INTO borrow_return VALUES ($isbn,NULL,NULL,NULL,NULL,0)";
-   mysqli_query($conn,$query1);
-
-   
+    $i++;
    }
    fclose($handle);
-   $delete_zero_row = "DELETE from borrow_return WHERE `isbn`=0";
-   mysqli_query($conn,$delete_zero_row);
-   mysqli_query($conn,"DELETE from books WHERE `isbn`=0");
   }
   else
   {
@@ -53,7 +44,6 @@ if(isset($_POST["upload"]))
   $message = '<label class="text-danger">Please Select File</label>';
  }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +59,7 @@ if(isset($_POST["upload"]))
 <section>
    <div class='header'>
     <h5>Bangalore public library</h5>
-     <h6 style='margin-left:85%;margin-top:-2%;'>hi <?php echo $_SESSION['pass']?></h6>
+     <h6 style='margin-left:85%;margin-top:-2%;'>hi </h6>
      <div class='dropdown'>
      <div class='dropbtn' style='margin-left:1075px;margin-top:-50px;'><i class="fas fa-user-circle"></i></div>
      <div class="dropdown-content">
@@ -81,7 +71,6 @@ if(isset($_POST["upload"]))
     <a href="./signout.php">Signout</a>
   </div>
     </div>
-    <a style="text:decoration:none;color:red" href="./dashboard.php?loggedin=1"><input style="margin-left:70%;margin-top:5%;color:blue;width:140px;height:40px;" type="button" value="To dashboard"></a>
 
     <form method="post" enctype='multipart/form-data'>
     <p style="margin-top:10%;margin-left:10%"><label>Please Select File(Only CSV Formate)</label>

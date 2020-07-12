@@ -1,10 +1,10 @@
 function doc(){
     let a=document.querySelectorAll(".returns");
-
     for(let i=0;i<a.length;i++){
         a[i].addEventListener('click',e1=>{
             let x=a[i].id;
             render(x);
+            location.reload();
         })
     };
 

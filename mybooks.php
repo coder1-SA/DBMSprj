@@ -11,7 +11,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$conn ->select_db($database) or die( "Unable to select database")
+$conn ->select_db($database) or die( "Unable to select database");
 ?>
 
 
@@ -30,24 +30,24 @@ $conn ->select_db($database) or die( "Unable to select database")
 
         <section>
    <div class='header'>
-     <form action="">
-       <input class='bg-light search' type="text" placeholder='search for a book :)'>
-       <i class="fas fa-search" style='background-color:#286fd7;color:white;padding:8px;margin-left:-4px;border-radius:5%;'></i>
+   <form action="">
+       <input class='bg-light search' type="text" placeholder=''>
+       <i class="fas fa-search" style='background-color:white;color:white;padding:8px;margin-left:-4px;border-radius:5%;'></i>
      </form>
-     <h6 style='margin-left:85%;margin-top:-2%;'>Hi &nbsp <?php echo $_SESSION['name1']?> </h6>
+     <h6 style='margin-left:85%;margin-top:-2%;'>Hi &nbsp <?php echo $_SESSION['pass']?> </h6>
      <div class='dropdown'>
      <div class='dropbtn' style='margin-left:1075px;margin-top:-50px;'><i class="fas fa-user-circle"></i></div>
      <div class="dropdown-content">
-    <a href="#">Account</a>
-    <a href="#">page 1</a>
-    <a href="#">page 2</a>
-    <a href="#">page 3</a>
+     <a href="settings.php">Account Settings</a>
+    <a href="./borrow.php">Borrow</a>
+    <a href="./mybooks.php">Return a book</a>
+    <a href="./addbooks.php">Donate a book</a>
     <a href="#">Information</a>
-    <a href="#">Signout</a>
+    <a href="./signout.php">Signout</a>
   </div>
     </div>
 
-<table style="color:blue;border-spacing: 15px;text-align:center;border:5px solid black; width:1000px; margin-left:200px; margin-top:100px">
+<table id="table" style="color:blue;border-spacing: 15px;text-align:center;border:5px solid black; width:1000px; margin-left:200px; margin-top:100px">
 <tr>
 <th>Name</th>
 <th>Publication</th>
@@ -59,15 +59,16 @@ $conn ->select_db($database) or die( "Unable to select database")
     <!-- data display-->
 <div>
 <?php
-        $usn=$_SESSION['usn1'];
-        $sql = "SELECT books.isbn,`name`,publication,genere FROM books JOIN borrow_return ON books.isbn=borrow_return.isbn AND usn='$usn' AND issues=1";
+        $usn=$_SESSION['id'];
+        $name = $_SESSION['pass'];
+        $sql = "SELECT books.isbn,`name`,publication,genere FROM books JOIN borrow_return ON books.isbn=borrow_return.isbn and borrow_return.issued = 1 and (borrow_return.sid='$usn' or borrow_return.tid='$usn')";
         $result = mysqli_query($conn,$sql);
         if($result){
         $row = mysqli_num_rows($result);
         if ($row > 0) {
             // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "<tr> <td>" . $row["name"]. "</td><td>" . $row["publication"]. "</td><td>" .$row["genere"]."</td><td><input class='returns' id =".$row['isbn']." onclick='doc()' value='Return' type='submit'></td></tr>";
+                    echo "<tr> <td>" . $row["name"]. "</td><td>" . $row["publication"]. "</td><td>" .$row["genere"]."</td><td><input class='returns' id =".$row['isbn']." onclick='doc()' value='Return' type='button'></td></tr>";
                 }
         } 
         }
@@ -75,7 +76,6 @@ $conn ->select_db($database) or die( "Unable to select database")
                 echo "<h2 style='text-align:center'>You've not borrowed any book.</h2>";
                 echo "<tr> <td>NULL</td><td>NULL</td><td>NULL</td><td></td></tr>";
         }
-        $conn->close();
 ?></div>
 
 </table>
@@ -85,37 +85,31 @@ $conn ->select_db($database) or die( "Unable to select database")
 
 <!-- Side panal -->
    </div>
+   </div>
     <div class='side_bar'>
     <i class="fas fa-book-reader" style='margin-top:38%;margin-left:28%;color:whitesmoke'></i>
-    <h5 style='margin-top:-13%;margin-left:45%;color:whitesmoke;'>Admin</h5>
+    <h5 style='margin-top:-13%;margin-left:45%;color:whitesmoke;'><?php if($_SESSION["teacher"]){echo "Faculty";} else{echo "Student";} ?></h5>
      <hr class='bg-light' style='margin-top:11%;width:11em;'>
-     <p style='color:white;font-weight:100;'><i class="fas fa-tachometer-alt" style='color:white;margin-left:35px;'></i><a style="color:white"href="dashboard.php">&nbsp&nbsp&nbsp Dashboard</a></p>
+     <p style='color:white;font-weight:100;'><i class="fas fa-tachometer-alt" style='color:white;margin-left:35px;'></i><a style="color:white" href="dashboard.php?loggedin=1">&nbsp&nbsp&nbsp Dashboard</a></p>
      <hr class='bg-light' style='margin-top:11%;width:11em;'>
     <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Interface</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-cogs" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Settings</p>
+    <p style='color:white;font-weight:100;'><i class="fas fa-cogs" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style="text-decoration:none;color:white" href="./settings.php">Settings</a> </p>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
-    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>View</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book-open" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp New Additions</p>
-    <p style='color:white;font-weight:100;'><i class="fas fa-book" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp Upcomming</p>
+    <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>view</p>
+    <p style='color:white;font-weight:100;'><i class="fas fa-book-open" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style="text-decoration:none;color:white" href="./cafeteria.php">Cafeteria</a> </p>
+    <p style='color:white;font-weight:100;'><i class="fas fa-book" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style="text-decoration:none;color:white" href="./update_cash.php">Update cash</a></p>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
     <p style='margin-top:-10px;margin-left:2px;font-size:10;color:#dadada;'>Statistics</p>
-    <p style='color:white;font-weight:100;'><i class="far fa-chart-bar" style='color:white;margin-left:35px;'></i><a style="color:white"href="charts.php">&nbsp&nbsp&nbsp Charts</a></p>
+    <p style='color:white;font-weight:100;'><i class="far fa-chart-bar" style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style="text-decoration:none;color:white" href="./charts.php">Charts</a> </p>
+    <?php if($_SESSION["teacher"]){echo "<p style='color:white;font-weight:100;'><i class='far fa-chart-bar' style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style='text-decoration:none;color:white' href='./teacher_add.php'>Add faculty accounts</a> </p> ";} ?>
+    <?php if($_SESSION["teacher"]){echo "<p style='color:white;font-weight:100;'><i class='far fa-chart-bar' style='color:white;margin-left:35px;'></i>&nbsp&nbsp&nbsp <a style='text-decoration:none;color:white' href='./student_add.php'>Add Student accounts</a> </p> ";} ?>
     <hr class='bg-light' style='margin-top:11%;width:11em;'>
     </div>
    </section>
-
-   
-   <img class="mySlides" src="img/shtheory.jpg">
-<img class="mySlides" src="img/got.jpg" >
-<img class="mySlides" src="img/elonmusk.jpg">
-<img class="mySlides" src="img/harrypotter.png">
-<img class="mySlides" src="img/got2.jpg">
-<h5 style='margin-top:-300px;margin-left:53%;color:black'>New Collections</h5>
   </section>
    
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/fbe06f22f8.js" crossorigin="anonymous"></script>
-    <script src="js/dashboard.js" type="text/javascript"></script>
     <script src="js/mybooks.js" type="text/javascript"></script>
 </body>
 </html>

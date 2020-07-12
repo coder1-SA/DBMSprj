@@ -5,41 +5,24 @@ $username = "root";
 $password = "";
 $dbname = "online_library";
 
+$conn = new mysqli($servername, $username, $password, $dbname) or die("Connection failed: " . $conn->connect_error);
+
+if(isset($_POST["name1"])){
 $name=$_POST["name1"];
 $usn=$_POST["usn1"];
-$email=$_POST["email1"];
 $dept=$_POST["dept1"];
 $sem=$_POST["sem1"];
 $pass=$_POST["pass1"];
-$phno=$_POST["phno1"];
 $secamt=$_POST["secamt1"];
 
 
-// Create connection
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$sql = "INSERT INTO student VALUES ('$usn','$pass','$name',$sem,'$dept',$secamt)";
+$sql2 = "INSERT INTO buys values(NULL,'$usn',NULL,NULL)";
 
-// Check connection
-if ($conn->connect_error) {
+$res = mysqli_query($conn, $sql);
+mysqli_query($conn, $sql2);
 
-die("Connection failed: " . $conn->connect_error);
-
+header("location:login.php");
 }
-
-$sql = "INSERT INTO register (name1,usn1,email1,dept1,sem1,pass1,phno1,secamt1)
-	VALUES ('$name','$usn','$email','$dept','$sem','$pass','$phno','$secamt')";
-
-if ($conn->query($sql) === TRUE) {
-
-echo "New record created successfully";
-
-} else {															
-
-echo "Error: " . $sql . "<br>" . $conn->error;
-
-}
-
-header("location:studentlogin.php");
-$conn->close();
-
 ?>
